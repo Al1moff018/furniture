@@ -55,6 +55,7 @@ try {
 const getProducts = async () => {
     const url = "products.json";
     const productsContainer = document.querySelector("#product-container");
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -63,22 +64,27 @@ const getProducts = async () => {
         const data = await response.json();
         data.forEach((item) => {
             const card = `
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-              <a class="product-item" href="cart.html">
+            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0" id="product-content">
+              <div class="product-item" >
                 <img src="${item.image}" class="img-fluid product-thumbnail">
                 <h3 class="product-title">${item.title}</h3>
                 <strong class="product-price">${item.price}</strong>
-                <span class="icon-cross">
+                <button class="icon-cross add-btn">
                   <img src="images/cross.svg" class="img-fluid">
-                </span>
-              </a>
+                </button>
+              </div>
             </div>
             `;
-            // console.log faqat tekshirish uchun
-            console.log(card);
             // bu esa htmlga qo‘shadi
             productsContainer.insertAdjacentHTML("beforeend", card);
         });
+        const productcontent = document.querySelector("#product-content")
+        productcontent.addEventListener("click", (e) => {
+          if (e.target.closest(".add-btn")){
+            const addBtn = e.target.closest('.add-btn')
+            console.log(addBtn);
+          }
+        })
     } catch (error) {
         console.error("Xatolik:", error);
     }
